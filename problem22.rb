@@ -14,7 +14,7 @@ def score_word(word)
 end
 
 # Create a sorted array of names from text file by removing delimiters.
-ary = File.read('p022_names.txt').delete!('"').split(',').sort
+ary = File.read('p022_names.txt').delete('"').split(',').sort
 
 # Calculate total score by finding the sum of each word's score multiplied by
 # its position in the list.
