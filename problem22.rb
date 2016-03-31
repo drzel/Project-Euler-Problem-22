@@ -14,7 +14,6 @@ class NameCalc
     end
   end
 
-  # Initialize object with file
   def initialize(file)
     # Create a sorted array of names from text file by removing delimiters.
     @name_list = File.read(file).delete('"').split(',').sort
