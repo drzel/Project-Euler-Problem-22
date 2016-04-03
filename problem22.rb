@@ -1,43 +1,26 @@
 # Ruby exercise. Solution to Project Euler Problem 22.
 # https://projecteuler.net/problem=22
-start = Time.now
 
 class NameCalc
   # Return the alphabetical score of a letter. E.g. a = 1, b = 2, c = 3.
   def letter_score(letter)
-    @letter_scores ||= Hash.new do |h, key|
-      h[key] = ('A'..'Z').to_a.index(key.upcase).to_i + 1
-    end
-    @letter_scores[letter]
-  end
-
-  # Return the aphabetical score of a string. E.g. 'abc' = 1 + 2 + 3 = 6.
-  def word_score(word)
-    word.split('').inject(0) do |sum, letter|
-      sum + letter_score(letter)
-    end
+    letter.upcase.ord - 64
   end
 
   def initialize(file)
-    # Create a sorted array of names from text file by removing delimiters.
     @names = File.read(file).delete('"').split(',').sort
   end
 
-  # Return total score by finding the sum of each word's score multiplied by
-  # its position in the list.
-  def score
-    total_score = 0
-    @names.each_with_index do |name, index|
-      word_position = index + 1
-      name_score = word_score(name) * word_position
-      total_score += name_score
-    end
-    total_score
+  def find_value_of(str)
+    str.split('').map { |letter| letter_score(letter) }.reduce(:+)
+  end
+
+  def find_value_of_all_names
+    @names.map.with_index(1) { |name, index| find_value_of(name) * index }.reduce(:+)
   end
 end
 
 calc = NameCalc.new('p022_names.txt')
-p calc.score
-finish = Time.now
-diff = finish - start
-p "Time taken: #{diff} seconds."
+colin = calc.find_value_of('COLIN')
+raise "Colin fails with #{colin}" unless colin == 53
+puts "The total is #{calc.find_value_of_all_names}"
