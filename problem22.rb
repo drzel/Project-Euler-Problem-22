@@ -1,10 +1,14 @@
 # Ruby exercise. Solution to Project Euler Problem 22.
 # https://projecteuler.net/problem=22
+start = Time.now
 
 class NameCalc
   # Return the alphabetical score of a letter. E.g. a = 1, b = 2, c = 3.
   def letter_score(letter)
-    ('A'..'Z').to_a.index(letter.upcase).to_i + 1
+    @letter_scores ||= Hash.new do |h, key|
+      h[key] = ('A'..'Z').to_a.index(key.upcase).to_i + 1
+    end
+    @letter_scores[letter]
   end
 
   # Return the aphabetical score of a string. E.g. 'abc' = 1 + 2 + 3 = 6.
@@ -34,3 +38,6 @@ end
 
 calc = NameCalc.new('p022_names.txt')
 p calc.score
+finish = Time.now
+diff = finish - start
+p "Time taken: #{diff} seconds."
